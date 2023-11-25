@@ -1,4 +1,4 @@
-﻿namespace test2
+﻿namespace cslearn
 {
     #region 注释
     //单行注释
@@ -835,7 +835,76 @@
 
             #region List
             Console.WriteLine("======List======");
-            List<int> ints1 = new List<int>();
+            List<int> ints1 = new List<int>() { 1,2,3 };
+            
+            ints1.Add(1);//增
+            List<int> ints2 = new List<int>() { 1,2,3,1 };
+            ints1.AddRange(ints2);//一次添加多个
+            ints1.Insert(1, 2);//在索引为1的位置插入一个2
+
+            ints1.Remove(1);//删1这个元素
+            ints1.RemoveAt(0);//删掉索引为0的元素（第一个）
+            ints1.Clear();//清空所有元素
+
+            ints1 = ints2;
+            Console.WriteLine(ints1[0]);//访问指定位置的元素
+            if (ints1.Contains(1))
+            {
+                Console.WriteLine("存在1");
+            }
+            Console.WriteLine(ints1.IndexOf(1));//从前往后获取1的位置
+            Console.WriteLine(ints1.LastIndexOf(1));//从后往前找到1的位置
+
+            ints1[1] = 1;//修改
+
+            for (int i = 0; i < ints1.Count; i++)
+            {
+                Console.WriteLine(ints1[i]);//遍历
+            }
+            foreach (int i in ints1)
+            {
+                Console.WriteLine(i);
+            }
+            #endregion
+
+            #region Dictionary
+            Console.WriteLine();
+            Dictionary<int, string> dictionary = new Dictionary<int, string>();
+
+            dictionary.Add(0, "0");//增
+            dictionary.Add(1, "1");
+            dictionary.Add(2, "2");
+
+            dictionary.Remove(2);//删，若不存在也不会报错，只是没反应
+            dictionary.Clear();//清空
+
+            dictionary.Add(0, "0");
+            dictionary.Add(1, "1");
+            if(dictionary.ContainsKey(0))
+            {
+                Console.WriteLine("存在键为0的键值对");
+            }
+            if(dictionary.ContainsValue("1"))
+            {
+                Console.WriteLine("存在值为1的键值对");
+            }
+
+            dictionary[0] = "000";
+            dictionary[1] = "111";//改
+
+            foreach (int item in dictionary.Keys)
+            {
+                Console.WriteLine(item);
+                Console.WriteLine(dictionary[item]);
+            }
+            foreach (string item in dictionary.Values)
+            {
+                Console.WriteLine(item);
+            }
+            foreach (KeyValuePair<int,string> item in dictionary)
+            {
+                Console.WriteLine($"键：{item.Key} 值：{item.Value}");
+            }
             #endregion
         }
     }
