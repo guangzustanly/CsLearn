@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace test2
+﻿namespace test2
 {
     #region 注释
     //单行注释
@@ -174,8 +172,6 @@ namespace test2
         #endregion
     }
     #endregion
-
-    #region 面向对象
 
     #region 属性
     class Person
@@ -517,8 +513,6 @@ namespace test2
     }
     #endregion
 
-    #endregion
-
     #region 泛型
     class MyArrayList<T>
     {
@@ -580,6 +574,60 @@ namespace test2
         }
     }
     #endregion
+
+    #region 泛型约束
+    class Test1
+    {
+        
+    }
+    class Test2:Test1
+    {
+
+    }
+    interface I_Test
+    {
+
+    }
+    class Test3:I_Test
+    {
+
+    }
+    interface I_Test2:I_Test
+    {
+
+    }
+    class Ys1<T> where T : struct//struct值类型；class引用类型；new()此类型必须是有一个public的无参构造函数的非抽象类型（即可以在外部用new()创建新对象）
+    {
+        public T Value { get; set; }
+        public Ys1(T value) { Value = value; }
+    }
+    class Ys2<T> where T : Test1//后面加类名，只能是这个类及其子类
+    {
+
+    }
+    class Ys3<T> where T : I_Test//后面加接口，必须是这个接口及其子类、子接口
+    {
+
+    }
+    class Ys4<T,U> where T:U//T必须是U或者U的子类
+    {
+
+    }
+
+    class Ys5<T> where T : class,new()//对同一个泛型类型组合使用多个约束规则
+    {
+
+    }
+
+    class Ys6<T,K> where T:class,new() where K : struct
+    {
+
+    }
+    #endregion
+
+    #region 
+
+    #endregion
     class Program
     {
         static void Main(string[] args)
@@ -631,8 +679,6 @@ namespace test2
                 Console.WriteLine(i_2[i]);
             }
             #endregion
-
-            #region 面向对象
 
             #region 索引器
             Console.WriteLine("=======索引器=======");
@@ -752,8 +798,6 @@ namespace test2
             }
             #endregion
 
-            #endregion
-
             #region 泛型
             Console.WriteLine("======泛型======");
             MyArrayList<int> list = new MyArrayList<int>([1,2]);
@@ -771,6 +815,27 @@ namespace test2
             {
                 Console.WriteLine(list2[i].name);
             }
+            #endregion
+
+            #region 泛型约束
+            Console.WriteLine("======泛型约束======");
+            //Yueshu<Student> y1 = new Yueshu<Student>(new Student("小敏"));//会报错，因为约束了只能用值类型
+            Ys1<int> y2 = new Ys1<int>(1);//约束了只能用值类型
+
+            //Ys2<int> y3 = new Ys2<int>();//会报错，因为int不是Test1的子类
+            Ys2<Test2> y4 = new Ys2<Test2>();//可以是Test2，因为它是Test1的子类
+            Ys2<Test1> y5 = new Ys2<Test1>();//可以是Test1本身
+
+            Ys3<I_Test> y6 = new Ys3<I_Test>();//可以是I_Test本身
+            Ys3<I_Test2> y7 = new Ys3<I_Test2>();//可以是I_Test的子接口
+            Ys3<Test3> y8 = new Ys3<Test3>();//可以是I_Test的子类
+
+            Ys4<int, object> y9= new Ys4<int, object>();//int是object的子类，故没有问题
+            #endregion
+
+            #region List
+            Console.WriteLine("======List======");
+            List<int> ints1 = new List<int>();
             #endregion
         }
     }
