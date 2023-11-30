@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cslearn", "cslearn\cslearn.csproj", "{D242C127-C79A-4815-A418-690B5B4511CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cslearn", "cslearn\cslearn.csproj", "{D242C127-C79A-4815-A418-690B5B4511CC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShujuChuli", "ShujuChuli\ShujuChuli.csproj", "{0D16B13F-CE47-4DF1-BA9D-270BB79F1184}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedNudewtd", "LinkedNudewtd\LinkedNudewtd.csproj", "{CAB43D81-CAF7-4CBF-994C-B5C860DFE1A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{D242C127-C79A-4815-A418-690B5B4511CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D242C127-C79A-4815-A418-690B5B4511CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D242C127-C79A-4815-A418-690B5B4511CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D16B13F-CE47-4DF1-BA9D-270BB79F1184}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D16B13F-CE47-4DF1-BA9D-270BB79F1184}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D16B13F-CE47-4DF1-BA9D-270BB79F1184}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D16B13F-CE47-4DF1-BA9D-270BB79F1184}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAB43D81-CAF7-4CBF-994C-B5C860DFE1A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAB43D81-CAF7-4CBF-994C-B5C860DFE1A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAB43D81-CAF7-4CBF-994C-B5C860DFE1A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAB43D81-CAF7-4CBF-994C-B5C860DFE1A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

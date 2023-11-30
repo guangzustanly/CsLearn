@@ -625,8 +625,68 @@
     }
     #endregion
 
-    #region 
+    #region MyLinkedList
+    
+    class MyLinkedNude<T>
+    {
+        public T value;
+        public MyLinkedNude<T> nextNude;
 
+        public MyLinkedNude(T value)
+        {
+            this.value = value;
+        }
+    }
+    class MyLinkedList<T>
+    {
+        public MyLinkedNude<T> head;
+        public MyLinkedNude<T> tail;
+
+        public void Add(T item)
+        {
+            MyLinkedNude<T> nude = new MyLinkedNude<T>(item);
+            if (head == null)
+            {
+                head = nude;
+                tail = nude;
+            }
+            else 
+            {
+                tail.nextNude = nude;
+                tail = nude;
+            }
+        }
+
+        public void Remove(T item)
+        {
+            if (head == null) return;
+            if (head.value.Equals(item))
+            {
+                head = head.nextNude;
+                if (head == null)
+                {
+                    tail = null;
+                }
+                return;
+            }
+            MyLinkedNude<T> nude = head;
+            while (nude.nextNude != null)
+            {
+                if (nude.nextNude.value.Equals(item))
+                {
+                    if (nude.nextNude.Equals(tail))
+                    {
+                        nude.nextNude = nude.nextNude.nextNude;
+                        tail = nude;
+                        break;
+                    }
+                    nude.nextNude = nude.nextNude.nextNude;
+                    break;
+                }
+                nude = nude.nextNude;
+            }
+        }
+    }
     #endregion
     class Program
     {
@@ -905,6 +965,16 @@
             {
                 Console.WriteLine($"键：{item.Key} 值：{item.Value}");
             }
+            #endregion
+
+            #region MyLinkedList
+            MyLinkedList<int> myLinkedList = new MyLinkedList<int>();
+            myLinkedList.Add(0);
+            myLinkedList.Add(1);
+            myLinkedList.Add(2);
+            myLinkedList.Remove(0);
+            myLinkedList.Remove(2);
+            myLinkedList.Remove(1);
             #endregion
         }
     }
