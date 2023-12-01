@@ -1,5 +1,18 @@
 ﻿namespace LinkedNudewtd
 {
+    static class Test
+    {
+        public static string Tostringwdh(this int[] value)
+        {
+            string output = "";
+            for (int i = 0; i < value.Length; i++)
+            {
+                output += value[i];
+                if (i < value.Length - 1) output += ", ";
+            }
+            return output;
+        }
+    }
     class LinkedNude<T>
     {
         public T value;
@@ -96,15 +109,53 @@
             }
             return -1;
         }
+        public int Size
+        {
+            get
+            {
+                if (head == null) return 0;
+                LinkedNude<T> nude = head;
+                int size = 0;
+                while (nude != null)
+                {
+                    size++;
+                    nude = nude.next;
+                }
+                return size;
+            }
+        }
         public int LastIndexOf(T value)
         {
             if (head == null) return -1;
             LinkedNude<T> nude = tail;
+            int lastindex = 0;
             while (nude != null)
             {
-                
+                if (nude.value.Equals(value))
+                {
+                    return Size - lastindex - 1;
+                }
+                nude = nude.last;
+                lastindex++;
             }
             return -1;
+        }
+        public int[] AllIndexsof(T value)
+        {
+            if (head == null || !Contains(value)) return [-1];
+            LinkedNude<T> nude = head;
+            List<int> indexs = new List<int>();
+            int index = 0;
+            while (nude != null)
+            {
+                if (nude.value.Equals(value))
+                {
+                    indexs.Add(index);
+                }
+                index++;
+                nude = nude.next;
+            }
+            return indexs.ToArray();
         }
     }
     internal class Program
@@ -124,12 +175,19 @@
             l.Add(4);
             l.Remove(3);
             l.Add(2);
+            l.Add(4);
+            l.Add(1);
+            l.Add(2);
+            l.Add(4);
+            l.Add(1);
+            l.Add(2);
 
             for (int i = 0; i < 5; i++)
             {
                 Console.WriteLine($"是否存在{i}：{l.Contains(i)}");
-                Console.WriteLine($"{i}的从前往后的索引：{l.IndexOf(i)}");
-                Console.WriteLine($"{i}的从后往前的索引：{l.LastIndexOf(i)}");
+                Console.WriteLine($"{i}的从前往后找的索引：{l.IndexOf(i)}");
+                Console.WriteLine($"{i}的从后往前找的索引：{l.LastIndexOf(i)}");
+                Console.WriteLine($"{i}的所有索引值：{l.AllIndexsof(i).Tostringwdh()}");
             }
         }
     }
