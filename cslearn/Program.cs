@@ -1021,6 +1021,23 @@
                 else return -1;
             }*/
             #endregion
+
+            #region 多线程
+            Console.WriteLine("多线程");
+            bool isRunning = true;
+            Thread t = new Thread(() =>
+            {
+                while (isRunning)
+                {
+                    Console.WriteLine("Hello");
+                }
+            });
+            t.Start();
+            t.IsBackground = true;
+            /*Console.ReadKey();
+            isRunning = false;
+            Console.ReadKey();*/
+            #endregion
         }
     }
 }
