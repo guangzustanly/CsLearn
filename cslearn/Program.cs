@@ -688,6 +688,26 @@
         }
     }
     #endregion
+
+    #region 自定义类的排序
+    class Item:IComparable<Item>
+    {
+        public int value;
+
+        public int CompareTo(Item? other)
+        {
+            if(other.value > value) return -1;
+            else return 1;
+        }
+
+        public Item(int value) { this.value = value; }
+    }
+    class Boom
+    {
+        public int damage;
+        public Boom(int damage) { this.damage = damage;}
+    }
+    #endregion
     class Program
     {
         static void Main(string[] args)
@@ -975,6 +995,31 @@
             myLinkedList.Remove(0);
             myLinkedList.Remove(2);
             myLinkedList.Remove(1);
+            #endregion
+
+            #region 自定义类的List排序
+            Console.WriteLine("List排序");
+            List<Item> itemList = new List<Item>() {new Item(2),new Item(4),new Item(5),new Item(1),new Item(3)};
+            foreach (Item item in itemList) { Console.WriteLine(item.value); }
+            itemList.Sort();
+            foreach (Item item in itemList) { Console.WriteLine(item.value); }
+
+            Console.WriteLine("List委托排序");
+            List<Boom> booms = new List<Boom>() { new Boom(3),new Boom(1),new Boom(4),new Boom(2)};
+            foreach (Boom bo in booms) { Console.WriteLine(bo.damage); }
+            //booms.Sort(CompareBooms);
+            /*booms.Sort((Boom b1,Boom b2) =>
+            {
+                if (b1.damage > b2.damage) return 1;
+                else return -1;
+            });*/
+            booms.Sort((a, b) => { return a.damage > b.damage ? 1 : -1; });
+            foreach (Boom bo in booms) { Console.WriteLine(bo.damage); }
+            /*static int CompareBooms(Boom b1,Boom b2)
+            {
+                if (b1.damage > b2.damage) return 1;
+                else return -1;
+            }*/
             #endregion
         }
     }
