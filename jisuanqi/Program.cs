@@ -6,12 +6,12 @@ namespace jisuanqi
     {
         static void wait()
         {
-            Console.WriteLine("按下任意键以继续");
+            Console.WriteLine("按下任意键以退出");
             Console.ReadKey();
         }
         static void Main(string[] args)
         {
-            Console.WriteLine("欢迎使用计算器，支持表达式计算。\n请输入表达式（允许+-*/和英文括号(),如果括号要嵌套，请在每一层都使用小括号）：");
+            Console.WriteLine("欢迎使用计算器，支持表达式计算。\n请输入表达式（允许+-*/和英文括号()[]{},如果要输入小数，请输入分数。如0.5请用1/2代替）：");
             for (int i = 0; i < 101; i++)
             {
                 string? input = Console.ReadLine();
@@ -50,16 +50,39 @@ namespace jisuanqi
                 case "/":
                     result = a / b;
                     break;
+                case "^":
+                    result = (decimal)Math.Pow((double)a, (double)b);
+                    break;
+            }
+            return result;
+        }
+        static int getyxj(string op)
+        {
+            int result = 0;
+            switch (op)
+            {
+                case "+":
+                case "-":
+                    result = 1;
+                    break;
+                case "*":
+                case "/":
+                    result = 2;
+                    break;
+                case "^":
+                    result = 3;
+                    break;
             }
             return result;
         }
         static decimal yunsuan(string input)
         {
+            input = input.Replace("[", "(").Replace("{", "(").Replace("]", ")").Replace("}", ")");
             Stack<decimal> numstack = new Stack<decimal>();//数字栈
             Stack<string> charstack = new Stack<string>();//符号栈
             charstack.Push("(");//默认在符号栈内压入一个左括号
 
-            string[] stringResult = (from Match match in Regex.Matches(input, @"(\()|(\))|(\d+)|(\*)|(\+)|(-)|(/)") select match.Value).ToArray();//分离数字和符号
+            string[] stringResult = (from Match match in Regex.Matches(input, @"(\()|(\))|(\d+)|(\*)|(\+)|(-)|(/)|(\^)") select match.Value).ToArray();//分离数字和符号
 
             string[] mid = new string[stringResult.Length + 1];
             for (int q = 0; q < stringResult.Length; q++)
@@ -77,31 +100,7 @@ namespace jisuanqi
         }
         static void suan(string[] stringResult, int i, ref Stack<decimal> numstack, ref Stack<string> charstack)
         {
-            if (stringResult[i] == "+" || stringResult[i] == "-")
-            {
-                if (charstack.Peek() == "(")
-                {
-                    charstack.Push(stringResult[i]);
-                }
-                else
-                {
-                    numstack.Push(jisuan(numstack.Pop(), numstack.Pop(), charstack.Pop()));
-                    suan(stringResult, i, ref numstack, ref charstack);//递归
-                }
-            }
-            else if (stringResult[i] == "*" || stringResult[i] == "/")
-            {
-                if (charstack.Peek() == "(" || charstack.Peek() == "+" || charstack.Peek() == "-")
-                {
-                    charstack.Push(stringResult[i]);
-                }
-                else
-                {
-                    numstack.Push(jisuan(numstack.Pop(), numstack.Pop(), charstack.Pop()));
-                    suan(stringResult, i, ref numstack, ref charstack);//递归
-                }
-            }
-            else if (stringResult[i] == "(")
+            if (stringResult[i] == "(")
             {
                 charstack.Push(stringResult[i]);
             }
@@ -110,6 +109,22 @@ namespace jisuanqi
                 if (charstack.Peek() == "(")
                 {
                     charstack.Pop();
+                }
+                else
+                {
+                    numstack.Push(jisuan(numstack.Pop(), numstack.Pop(), charstack.Pop()));
+                    suan(stringResult, i, ref numstack, ref charstack);//递归
+                }
+            }
+            else if (stringResult[i] == "+" || stringResult[i] == "-" || stringResult[i] == "*" || stringResult[i] == "/" || stringResult[i] == "^")
+            {
+                if (charstack.Peek() == "(")
+                {
+                    charstack.Push(stringResult[i]);
+                }
+                else if (getyxj(stringResult[i]) > getyxj(charstack.Peek()))
+                {
+                    charstack.Push(stringResult[i]);
                 }
                 else
                 {
