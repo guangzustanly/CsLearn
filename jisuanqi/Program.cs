@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace jisuanqi
+namespace calculator
 {
     internal class Program
     {
@@ -23,7 +23,7 @@ namespace jisuanqi
                 }
                 try
                 {
-                    Console.WriteLine($"结果：{yunsuan(input)}");
+                    Console.WriteLine($"结果：{Compute(input)}");
                 }
                 catch
                 {
@@ -33,7 +33,7 @@ namespace jisuanqi
                 }
             }
         }
-        static decimal jisuan(decimal b, decimal a, string op)
+        static decimal Operate(decimal b, decimal a, string op)
         {
             decimal result = 0;
             switch (op)
@@ -75,61 +75,53 @@ namespace jisuanqi
             }
             return result;
         }
-        static decimal yunsuan(string input)
+        static decimal Compute(string input)
         {
-            input = input.Replace("[", "(").Replace("{", "(").Replace("]", ")").Replace("}", ")");
+            input = input.Replace("[", "(").Replace("{", "(").Replace("]", ")").Replace("}", ")")+")";
             Stack<decimal> numstack = new Stack<decimal>();//数字栈
-            Stack<string> charstack = new Stack<string>();//符号栈
-            charstack.Push("(");//默认在符号栈内压入一个左括号
+            Stack<string> optstack = new Stack<string>();//符号栈
+            optstack.Push("(");//默认在符号栈内压入一个左括号
 
-            string[] stringResult = (from Match match in Regex.Matches(input, @"((\d+)(\.\d+)?)|(\()|(\))|(\d+)|(\*)|(\+)|(-)|(/)|(\^)") select match.Value).ToArray();//分离数字和符号
-
-            string[] mid = new string[stringResult.Length + 1];
-            for (int q = 0; q < stringResult.Length; q++)
-            {
-                mid[q] = stringResult[q];
-            }
-            mid[stringResult.Length] = ")";
-            stringResult = mid;//上面几步是扩容分离出来的符号和数字字符串数组，并在结尾默认加一个右括号
+            string[] stringResult = (from Match match in Regex.Matches(input, @"(\d+\.\d+?)|(\()|(\))|(\d+)|(\*)|(\+)|(-)|(/)|(\^)") select match.Value).ToArray();//分离数字和符号
 
             for (int i = 0; i < stringResult.Length; i++)
             {
-                suan(stringResult, i, ref numstack, ref charstack);//不断计算
+                gui(stringResult, i, ref numstack, ref optstack);//不断计算
             }
             return numstack.Peek();
         }
-        static void suan(string[] stringResult, int i, ref Stack<decimal> numstack, ref Stack<string> charstack)
+        static void gui(string[] stringResult, int i, ref Stack<decimal> numstack, ref Stack<string> optstack)
         {
             if (stringResult[i] == "(")
             {
-                charstack.Push(stringResult[i]);
+                optstack.Push(stringResult[i]);
             }
             else if (stringResult[i] == ")")
             {
-                if (charstack.Peek() == "(")
+                if (optstack.Peek() == "(")
                 {
-                    charstack.Pop();
+                    optstack.Pop();
                 }
                 else
                 {
-                    numstack.Push(jisuan(numstack.Pop(), numstack.Pop(), charstack.Pop()));
-                    suan(stringResult, i, ref numstack, ref charstack);//递归
+                    numstack.Push(Operate(numstack.Pop(), numstack.Pop(), optstack.Pop()));
+                    gui(stringResult, i, ref numstack, ref optstack);//递归
                 }
             }
             else if (stringResult[i] == "+" || stringResult[i] == "-" || stringResult[i] == "*" || stringResult[i] == "/" || stringResult[i] == "^")
             {
-                if (charstack.Peek() == "(")
+                if (optstack.Peek() == "(")
                 {
-                    charstack.Push(stringResult[i]);
+                    optstack.Push(stringResult[i]);
                 }
-                else if (getyxj(stringResult[i]) > getyxj(charstack.Peek()))
+                else if (getyxj(stringResult[i]) > getyxj(optstack.Peek()))
                 {
-                    charstack.Push(stringResult[i]);
+                    optstack.Push(stringResult[i]);
                 }
                 else
                 {
-                    numstack.Push(jisuan(numstack.Pop(), numstack.Pop(), charstack.Pop()));
-                    suan(stringResult, i, ref numstack, ref charstack);//递归
+                    numstack.Push(Operate(numstack.Pop(), numstack.Pop(), optstack.Pop()));
+                    gui(stringResult, i, ref numstack, ref optstack);//递归
                 }
             }
             else
