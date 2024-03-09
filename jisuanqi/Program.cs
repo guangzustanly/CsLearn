@@ -11,7 +11,7 @@ namespace jisuanqi
         }
         static void Main(string[] args)
         {
-            Console.WriteLine("欢迎使用计算器，支持表达式计算。\n请输入表达式（允许+-*/和英文括号()[]{},如果要输入小数，请输入分数。如0.5请用1/2代替）：");
+            Console.WriteLine("欢迎使用计算器，支持表达式计算。\n请输入表达式(允许+-*/和英文括号()[]{})：");
             for (int i = 0; i < 101; i++)
             {
                 string? input = Console.ReadLine();
@@ -82,7 +82,7 @@ namespace jisuanqi
             Stack<string> charstack = new Stack<string>();//符号栈
             charstack.Push("(");//默认在符号栈内压入一个左括号
 
-            string[] stringResult = (from Match match in Regex.Matches(input, @"(\()|(\))|(\d+)|(\*)|(\+)|(-)|(/)|(\^)") select match.Value).ToArray();//分离数字和符号
+            string[] stringResult = (from Match match in Regex.Matches(input, @"((\d+)(\.\d+)?)|(\()|(\))|(\d+)|(\*)|(\+)|(-)|(/)|(\^)") select match.Value).ToArray();//分离数字和符号
 
             string[] mid = new string[stringResult.Length + 1];
             for (int q = 0; q < stringResult.Length; q++)
